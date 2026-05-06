@@ -8,9 +8,12 @@ using UrbanStore.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔥 PUERTO RENDER
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://*:{port}");
+// 🔥 PUERTO RENDER (solo en producción)
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+{
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+    builder.WebHost.UseUrls($"http://*:{port}");
+}
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
